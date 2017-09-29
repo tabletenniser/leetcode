@@ -22,6 +22,16 @@ class Solution(object):
         :type n: int
         :rtype: List[int]
         """
+        if n == 0:
+            return [0]
+        elif n == 1:
+            return [0,1]
+        result = []
+        sub = self.grayCode(n-1)
+        result.extend(sub)
+        for elem in sub[::-1]:
+            result.append(elem+2**(n-1))
+        return result
 
 s = Solution()
 print s.grayCode(3)
