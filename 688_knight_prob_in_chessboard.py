@@ -29,7 +29,7 @@ class Solution(object):
             return kp[(K, r, c)]
         total_prob = 0
         for d in [(1,2), (2,1), (-1, -2), (-2, -1), (1, -2), (-1, 2), (2, -1), (-2, 1)]:
-            total_prob += self.knightProbability(N, K-1, r+d[0], c+d[1]) * 1.0/8
+            total_prob += self.kp_rec(N, K-1, r+d[0], c+d[1], kp) * 1.0/8
 
         kp[(K, r, c)] = total_prob
         return total_prob
@@ -43,7 +43,9 @@ class Solution(object):
         :rtype: float
         """
         kp = dict()
-        return self.kp_rec(N, K, r, c, kp)
+        res = self.kp_rec(N, K, r, c, kp)
+        return res
 
 s = Solution()
+# print s.knightProbability(3, 2, 0, 0)
 print s.knightProbability(8, 30, 6, 4)
