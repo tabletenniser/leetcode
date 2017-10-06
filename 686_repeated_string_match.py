@@ -15,6 +15,19 @@ class Solution(object):
         :type B: str
         :rtype: int
         """
+        i = max(len(B) / len(A), 1)
+        if (A*i).find(B) >= 0:
+            return i
+        if (A*(i+1)).find(B) >= 0:
+            return i+1
+        return -1
+
+    def repeatedStringMatch_2(self, A, B):
+        """
+        :type A: str
+        :type B: str
+        :rtype: int
+        """
         i = 1
         while len(A) * i <= len(B) + len(A) * 2:
             if len(A) * i >= len(B):

@@ -37,16 +37,15 @@ class TreeNode(object):
         self.right = None
 
 class Solution(object):
-    def lup_rec(self, root, val):
-        if root == None or root.val != val:
+    def lup_rec(self, root):
+        if root == None:
             return 0, 0
-        if root.left == None and root.right == None:
-            return 1, 1
-        parent_value = max(self.lup_rec(root.left, val),
-            self.lup_rec(root.right, val)) + 1
-
-        l, max_l = self.lup_rec(root.left, val)
-        r, max_r = self.lup_rec(root.right, val)
+        l, max_l = self.lup_rec(root.left)
+        r, max_r = self.lup_rec(root.right)
+        if root.left == None or root.left.val != root.val:
+            l = 0
+        if root.right == None or root.right.val != root.val:
+            r = 0
         return max(l, r) + 1, max(l + r + 1, max_l, max_r)
 
     def longestUnivaluePath(self, root):
@@ -54,4 +53,5 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        _, res = self.lup_rec(root, root.val)
+        _, res = self.lup_rec(root)
+        return max(res - 1, 0)
