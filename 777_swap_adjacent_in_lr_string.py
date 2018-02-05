@@ -44,8 +44,27 @@ class Solution(object):
             return False
         return try_all_permutation(start)
 
+    def canTransform2(self, start, end):
+        def normalize(string):
+            result = []
+            for i, ch in enumerate(string):
+                if ch == 'R' or ch == 'L':
+                    result.append((ch, i))
+            return result
+        s_ind_count = normalize(start)
+        e_ind_count = normalize(end)
+        if len(s_ind_count) != len(e_ind_count):
+            return False
+        for s, e in zip(s_ind_count, e_ind_count):
+            if s[0] == e[0] == 'R' and e[1] >= s[1] or s[0] == e[0] == 'L' and e[1] <= s[1]:
+                continue
+            return False
+        return True
+
 s = Solution()
 start = "XXRXXLXXLLRXXLXXLXLXRXXLXXRXRX"
 end   = "XRXLXXXXLLXXXRLLLXRXXLRXXXXXRX"
-assert s.canTransform(start, end)
+assert s.canTransform2(start, end) == False
+
+assert s.canTransform2("XXRXXLXXXX", "XXXXRXXLXX") == False
 
