@@ -29,7 +29,8 @@ class Solution:
             return L * (L-1)//2
         coprime_count = 0
         include_count = 0
-        interesting_nums = []
+        interesting_nums = dict()
+        in_count = 0
         for n in nums:
             g = math.gcd(n, k)
             if g == 1:
@@ -37,14 +38,21 @@ class Solution:
             elif g == k:
                 include_count += 1
             else:
-                interesting_nums.append(g)
-        L = len(interesting_nums)
+                interesting_nums[g] = interesting_nums.get(g, 0) + 1
+                in_count += 1
+        # print(coprime_count, include_count, interesting_nums)
         res = 0
-        for i in range(L):
-            for j in range(i+1, L):
-                if (interesting_nums[i] * interesting_nums[j]) % k == 0:
-                    res += 1
-        res += include_count * (coprime_count+L)
+        in_lst = list(interesting_nums.keys())
+        for i, key1 in enumerate(in_lst):
+            key1 = in_lst[i]
+            for j in range(i, len(in_lst)):
+                key2 = in_lst[j]
+                if (key1 * key2) % k == 0:
+                    if key1 == key2:
+                        res += interesting_nums[key1] * (interesting_nums[key1]-1) // 2
+                    else:
+                        res += interesting_nums[key1] * interesting_nums[key2]
+        res += include_count * (coprime_count+in_count)
         res += (include_count * (include_count-1)) // 2
         return res
 
